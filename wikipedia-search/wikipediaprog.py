@@ -1,25 +1,48 @@
 import wikipedia
 
+while True:
+    print("\n====== Wikipedia Menu ======")
+    print("1. Search Article Sections")
+    print("2. Random Article")
+    print("3. Exit")
 
-while(True):
-    print("======Wikipedia Search ======\n")
-    print("-----Title Should Be Correct and Match The Wikipedia Article Title------")
-    query=input("Enter Title To Search: ")
-   
-    try:
-        result=wikipedia.summary(query, sentences=8)
+    choice = input("Enter your choice: ")
 
-        print("\nResult: \n")
-        print(result,"\n")
-        print("---------------------------------\n")
+    match choice:
+        case "1":
+            query = input("Enter Title To Search: ")
 
-    except wikipedia.exceptions.DisambiguationError as e:
-        print("Multiple results Found, Select any One:")
-        print(e.options[:6])
+            try:
+                page = wikipedia.summary(query,sentences=10)
 
-    except wikipedia.exceptions.PageError:
-        print("This Page is Not Found")
-        print("---------------------------------\n")
+                print("\n Contents:\n")
+                print(page)
 
-    except Exception as e:
-        print("Error:",e)
+                print("\n---------------------------------\n")
+
+            except wikipedia.exceptions.DisambiguationError as e:
+                print("Multiple results found:")
+                print(e.options[:5])
+
+            except wikipedia.exceptions.PageError:
+                print(" Page not found")
+
+            except Exception as e:
+                print("Error:", e)
+
+        case "2":
+            print("\n Random Article:")
+            title=wikipedia.random()
+            page=wikipedia.page(title)
+            print("Random Page Title:",title)
+            print("Content:")
+            sum=wikipedia.summary(title,sentences=10)
+            print(sum)
+            
+
+        case "3":
+            print("Exiting...")
+            break
+
+        case _:
+            print(" Invalid choice")
